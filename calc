@@ -1,0 +1,40 @@
+CREATE TABLE IF NOT EXISTS weather(
+ID DATE NOT NULL AUTO_INCREMENT PRIMARY KEY,
+rainfall_mm TINYINT UNSIGNED,
+min_temp TINYINT UNSIGNED,
+min_recorded TIME,
+max_temp TINYINT UNSIGNED,
+max_recorded TIME
+);
+
+SELECT rainfall_mm * 25.4 FROM weather;
+
+SELECT rainfall_mm * 25.4 FROM weather where min_tem < 32;
+
+SELECT ID, rainfall_mm * 25.4 FROM weather WHERE min_tem < 32 ORDER BY rainfall_mm * 25.4 DESC;
+
+SELECT ID, ((max_temp * 1.8) + 32) FROM weather;
+
+SELECT ID, ((min_temp * 1.8) + 32), ((max_temp * 1.8) + 32) FROM weather;
+
+SELECT ID, ((max_temp * 1.8) + 32) - ((min_temp * 1.8) + 32) FROM weather;
+
+SELECT AVG(rainfall_mm) FROM weather;
+
+SELECT count(ID) FROM weather WHERE rainfall_mm > 10;
+
+SELECT count(ID) FROM weather WHERE max_temp > 30 AND rainfall_mm > 0;
+
+SELECT * FROM weather WHERE ID = SUBDATE(DATE, INTERVAL 1 WEEK);
+
+SELECT TIMEDIFF(max_recorded, min_recorded) FROM weather WHERE ID = DATE;
+
+SELECT TIMEDIFF(max_recorded, min_recorded) FROM weather WHERE ID = SUBDATE(DATE, INTERVAL 1 DAY)
+
+SELECT ID, TIMEDIFFf(max_recorded, min_recorded) FROM weather;
+
+SELECT AVG(max_recorded) FROM weather;
+
+SELECT TIMEDIFF(max_recorded, (SELECT AVG(max_recorded) FROM weather)) FROM weather;
+
+select ID, rainfall_mm / (SELECT SUM(rainfall_mm) FROM weather) * 100 FROM weather;
